@@ -7,7 +7,8 @@ __pycache__/
 *.so
 
 # API key
-api_key.txt
+cohere_api_key.txt
+stability_api_key.txt
 
 # Distribution / packaging
 .Python
