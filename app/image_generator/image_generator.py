@@ -1,3 +1,5 @@
+import cohere
+
 class ImageGenerator:
     def __init__(self, story_segment, width, height):
         self.story_segment = story_segment
