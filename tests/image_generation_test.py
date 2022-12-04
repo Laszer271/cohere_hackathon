@@ -28,9 +28,10 @@ def get_segmented_story(sentences_per_page=3):
 def summarize_story():
     story = get_segmented_story(sentences_per_page=3)[1]
     for part in story:
-        summarized_part = StorySummarizer(part, max_tokens=300).summarize()
-        get_image_to_story_segment(summarized_part)
-        print(summarized_part)
+        summarized_part = StorySummarizer(part, max_tokens=200).summarize()
+        if summarized_part != "":
+            get_image_to_story_segment(summarized_part)
+        print(part)
 
 
 def get_image_to_story_segment(segment_summarized):

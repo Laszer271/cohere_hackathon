@@ -14,13 +14,12 @@ class ImageGenerator:
         self.height = height
 
     def generate(self):
-        image_prompt = f"fairy tale style, summary image of: {self.story_segment}"
+        image_prompt = f"children's tale style; {self.story_segment}"
         answers = stability_api.generate(
             prompt=image_prompt,
             width=self.width,
             height=self.height
         )
-
         # iterating over the generator produces the api response
         for resp in answers:
             for artifact in resp.artifacts:
