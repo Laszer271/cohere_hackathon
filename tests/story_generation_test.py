@@ -4,10 +4,10 @@ from tests.image_generation_test import get_segmented_story
 
 def create_prompt(story_title=None):
     header = 'Exercise: Generate the beginning of the story for children based on a title given.'
-    story_title_1, random_story_1 = get_segmented_story(sentences_per_page=5)
+    story_title_1, random_story_1 = get_segmented_story(sentences_per_page=3)
     random_story_2 = random_story_1
     while random_story_1[0] == random_story_2[0]:
-        story_title_2, random_story_2 = get_segmented_story(sentences_per_page=5)
+        story_title_2, random_story_2 = get_segmented_story(sentences_per_page=3)
     examples = [random_story_1[0], random_story_2[0]]
     titles = [story_title_1, story_title_2]
     if story_title is None:
@@ -24,11 +24,12 @@ def create_stories(story_title=None):
 
 
 def main():
-    story_title = 'The princess and the italy castle'
+    story_title = 'The princess and the Italy castle'
     result = create_stories(story_title)
-    story = result['generation'][0]
-    title = story_title
-    print(title + '\n' + story)
+    for story in result['generation']:
+        title = story_title
+        print(title + '\n' + story)
+        print('----------------------------------------')
 
 if __name__ == '__main__':
     main()
