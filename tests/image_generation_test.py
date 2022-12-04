@@ -2,7 +2,10 @@ import os
 import random
 import json
 
+from app.image_generator.image_generator import ImageGenerator
 from app.story_generator.segmentation import StoryDivider
+from app.story_generator.summarizer import StorySummarizer
+
 
 def get_random_story():
     stories_path = os.path.join(os.path.abspath(__file__), os.pardir, os.pardir,
@@ -22,9 +25,18 @@ def get_segmented_story(sentences_per_page=3):
     return story["title"], segmented
 
 
-def get_image_to_story_segment():
-    # waiting for guys to implement this
-    pass
+def summarize_story():
+    story = get_segmented_story(sentences_per_page=3)[1]
+    for part in story:
+        summarized_part = StorySummarizer(part, max_tokens=200).summarize()
+        if summarized_part != "":
+            get_image_to_story_segment(summarized_part)
+        print(part)
+
+
+def get_image_to_story_segment(segment_summarized):
+    ig = ImageGenerator(segment_summarized)
+    ig.generate()
 
 
 def create_the_story_object():
@@ -34,7 +46,7 @@ def create_the_story_object():
 
 
 def main():
-    get_segmented_story()
+    summarize_story()
 
 
 if __name__ == "__main__":
