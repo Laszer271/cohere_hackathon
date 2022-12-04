@@ -33,12 +33,13 @@ section {
 }
 
 #story_text {
-    height: 400px;
-    width: 350px;
+    height: 450px;
+    width: 400px;
     font-size: 1.8em;
     padding: 6px;
     border: 1px solid gray;
     resize: none;
+    background-color: transparent;
 }
 
 section div {
@@ -74,8 +75,8 @@ section .image-output {
 }
 
 section .image-output img {
-    max-width: 80%;
-    max-height: 500px;
+    max-width: 400px;
+    max-height: 450px;
 }
 
 .page-changer {
@@ -111,7 +112,7 @@ section .image-output img {
     font-size: 1.2em;
 }
 
-#story_style {
+select {
     width: 100%;
     font-size: 1.1em;
 }
@@ -122,6 +123,10 @@ section .image-output img {
 
 .no-display {
     display: none;
+}
+
+.disabled {
+    pointer-events: none;
 }
 
 /* FOOTER */
@@ -137,7 +142,7 @@ footer {
 
 .generating_progress {
     position: absolute;
-    background-color: rgb(20, 20, 20);
+    background-color: #222;
     opacity: 1;
     color: white;
     top: 0;
