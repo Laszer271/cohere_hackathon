@@ -1,0 +1,11 @@
+services:
+  storytime-api:
+    build: .
+    environment:
+      COHERE_KEY: key
+      DEFAULT_ALGORITHM_PARAMETERS: '{"style_of_the_story": "grimm"}'
+    ports:
+      - "8000:8000"
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro

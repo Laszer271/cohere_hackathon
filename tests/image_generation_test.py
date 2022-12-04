@@ -4,7 +4,6 @@ import json
 
 from app.story_generator.segmentation import StoryDivider
 
-
 def get_random_story():
     stories_path = os.path.join(os.path.abspath(__file__), os.pardir, os.pardir,
                                 "data", "stories", "fairy_tales.json")
@@ -14,12 +13,13 @@ def get_random_story():
     return example_story
 
 
-def get_segmented_story():
+def get_segmented_story(sentences_per_page=3):
     story = get_random_story()
+    if len(story) > 2048:
+        story = story[:2000]
     seg = StoryDivider(story["title"], story["text"])
-    segmented = seg.divide_story_into_segments()
-    print(segmented)
-    return segmented
+    segmented = seg.divide_story_into_segments(sentences_per_page=sentences_per_page)
+    return story["title"], segmented
 
 
 def get_image_to_story_segment():
