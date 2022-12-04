@@ -1,30 +1,30 @@
 from typing import Union
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 # to start app cd to project root directory and run:
 # uvicorn app.main:app --reload
 # reference: https://fastapi.tiangolo.com/#run-it
 
-
 app = FastAPI()
 
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/")
-def read_root():
-    return {"Hello": "World"}
+@app.post("/options")
+def read_item():
+    return {}
 
+@app.post("/page")
+def read_item():
+    return {"text": "Some cool text"}
 
-@app.get("/story")
-def get_story():
-    return {"Story": "Lorem ipsum dolor sit amet"}
-
-
-@app.get("/images")
+@app.post("/image")
 def read_item():
     return {"Images": "Some cool pictures, based on story"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: Union[str, None] = None):
-    return {"item_id": item_id, "q": q}
 

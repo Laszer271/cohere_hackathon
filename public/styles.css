@@ -1,0 +1,169 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: rgb(244, 244, 244);
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    height: 100vh;
+}
+
+/* MAIN CONTENT */
+
+section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    flex: 1 1 auto;
+}
+
+#summary {
+    resize: none;
+    outline: none;
+    background-color: transparent;
+    height: 300px;
+    /* border: 0; */
+    font-size: 2em;
+    padding: 4px;
+}
+
+#story_text {
+    height: 400px;
+    width: 350px;
+    font-size: 1.8em;
+    padding: 6px;
+    border: 1px solid gray;
+    resize: none;
+}
+
+section div {
+    padding: 20px;
+}
+
+section .text-input {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 50%;
+}
+
+.settings-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.checkbox_container label {
+    user-select: none;
+    font-size: 1.2em;
+}
+.checkbox_container input {
+    margin: 6px;
+}
+
+section .image-output {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+section .image-output img {
+    max-width: 80%;
+    max-height: 500px;
+}
+
+.page-changer {
+    color: white;
+    font-size: 6em;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+#page_back {
+    text-shadow: -3px 3px black;
+}
+
+#page_next {
+    text-shadow: 3px 3px black;
+}
+
+.page-counter {
+    flex: 0 1 80px;
+    font-size: 2em;
+    padding: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#story_style_container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+}
+
+#story_style {
+    width: 100%;
+    font-size: 1.1em;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.no-display {
+    display: none;
+}
+
+/* FOOTER */
+
+footer {
+    flex: 0 1 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-color: rgb(237, 142, 0);
+}
+
+.generating_progress {
+    position: absolute;
+    background-color: rgb(20, 20, 20);
+    opacity: 1;
+    color: white;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    font-weight: 700;
+    transition: opacity 0.3s;
+    user-select: none;
+    pointer-events: none;
+}
+
+.clickable {
+    pointer-events: all;
+}
+
+.opacity-zero {
+    opacity: 0;
+}
+
+footer button {
+    padding: 4px;
+    margin: 20px;
+    font-size: 2em;
+}

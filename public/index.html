@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <script src="main.js" defer></script>
+    <title>Hackaton Golem - short stories for children</title>
+</head>
+<body>
+    <section id="settings">
+        <div class="settings-container">
+            <textarea id="summary" placeholder="Place summary of your story here"></textarea>
+            <div class="checkboxes">
+                <div class="checkbox_container">
+                    <input id="option1" type="checkbox">
+                    <label for="option1">Option 1</label>
+                </div>
+                <div class="checkbox_container">
+                    <input id="option2" type="checkbox">
+                    <label for="option2">Option 2</label>
+                </div>
+                <div class="checkbox_container">
+                    <input id="option3" type="checkbox">
+                    <label for="option3">Option 3</label>
+                </div>
+            </div>
+            <div id="story_style_container">
+                <div>Story style:</div>
+                <select name="style" id="story_style">
+                    <option value="none">None</option>
+                    <option value="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                </select>
+            </div>
+        </div>
+    </section>
+    <section id="view_story" class="no-display">
+        <div class="page-changer" id="page_back" onclick="changePage(false)"><</div>
+        <div class="text-input">
+            <textarea id="story_text"></textarea>
+        </div>
+        <div class="image-output">
+            <img id="story_image" src="" alt="">
+        </div>
+        <div class="page-changer" id="page_next" onclick="changePage(true)">></div>
+    </section>
+    <div class="page-counter hidden"></div>
+    <footer>
+        <div class="generating_progress opacity-zero" id="content_progress">Generating content...</div>
+        <button id="gen_new_story">Generate</button>
+        <button id="gen_story" class="no-display">Regenerate Page</button>
+        <button id="gen_image" class="no-display">Create Image</button>
+        <button id="gen_page" class="no-display">Continue Story</button>
+        <!-- <a href="../pdf/sample_string.pdf" target="_blank"><button>View as PDF</button></a> -->
+    </footer>
+</body>
+</html>
