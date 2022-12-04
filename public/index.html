@@ -35,6 +35,14 @@
                     <option value="audi">Audi</option>
                 </select>
             </div>
+            <div id="story_style_container">
+                <div>Number of pages:</div>
+                <select name="style" id="page_number">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                </select>
+            </div>
         </div>
     </section>
     <section id="view_story" class="no-display">
@@ -54,7 +62,9 @@
         <button id="gen_story" class="no-display">Regenerate Page</button>
         <button id="gen_image" class="no-display">Create Image</button>
         <button id="gen_page" class="no-display">Continue Story</button>
-        <!-- <a href="../pdf/sample_string.pdf" target="_blank"><button>View as PDF</button></a> -->
+        <button id="go_settings" class="no-display" onclick="backToSettings()">Create Another Story</button>
+        <button id="gen_pdf" class="no-display">Generate PDF</button>
+        <a href="" target="_blank" id="view_pdf" class="no-display"><button>View PDF</button></a>
     </footer>
 </body>
 </html>
