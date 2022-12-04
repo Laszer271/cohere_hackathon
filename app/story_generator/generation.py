@@ -78,7 +78,7 @@ class PromptGenerator:
             prompt += self.pre_example_string
 
         estimated_tokens_number = len(prompt.split(' ')) + len(ex.split(' '))
-        estimated_tokens_number *= 2  # let's assume word is on averate 2 tokens
+        estimated_tokens_number *= 2  # let's assume word is on average 2 tokens
         assert estimated_tokens_number < self.max_tokens, f'Estimated number' \
                                                           f' of tokens was {estimated_tokens_number} which is more' \
                                                           f' than specified max number of tokens ({self.max_tokens})'
