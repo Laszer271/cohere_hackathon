@@ -1,6 +1,7 @@
 from typing import Union
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from app.story_generator.generation import StoryGenerator, get_n_stories
 import base64
 
 from app.story_generator.generation import StoryTextGenerator, PromptGenerator
@@ -20,24 +21,46 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-with open("../data/img/sample_image.png", "rb") as image_file:
+with open("./data/img/sample_image.png", "rb") as image_file:
     encoded_string_example = base64.b64encode(image_file.read())
 
 
 def create_story(story_title: str, n_pages: int):
     pass
 
+data_generator = None
+count = 0
 
 @app.post("/settings")
 async def read_item(info: Request):
     data = await info.json()
+    global data_generator
+
+    stories = get_n_stories(3)
+    data_generator = StoryGenerator(data['settings']['pages'], data['settings']['summary'], stories)
     return {}
 
 
 @app.post("/page")
 async def read_item(info: Request):
     data = await info.json()  # Data from post
-    return {"text": "Generated New Story or Next page of existing one"}  # Use this format
+    print(data)
+    global count
+    global data_generator
+    if count == 0:
+        text = data_generator.generate_story_description()
+    elif count == 1:
+        data_generator.summary = data['text']
+        text = data_generator.generate_story_beginning()
+    # elif count < data_generator.n_pages -1:
+    #     data_generator.beginning = data['text']
+    #     text = data_generator.generate_story_continuation()
+    else:
+        data_generator.continuation = data['text']
+        text = data_generator.generate_story_ending()
+    count += 1
+    # data_generator.generate_story_description()
+    return {"text": text}  # Use this format
 
 
 @app.post("/image")
