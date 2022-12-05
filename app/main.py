@@ -23,7 +23,7 @@ app.add_middleware(
 )
 
 data_generator = None
-count = 0
+# count = 0
 
 @app.post("/settings")
 async def read_item(info: Request):
@@ -41,7 +41,7 @@ async def read_item(info: Request):
     data = await info.json()  # Data from post
     print(data)
     global data_generator
-    global count
+    count = data['page']
 
     if count == 0:
         summary = data_generator.generate_story_description()
@@ -60,7 +60,7 @@ async def read_item(info: Request):
         text = data_generator.generate_story_ending()
         print('Ending:', text)
 
-    count += 1
+    # count += 1
 
     return {"text": text}  # Use this format
 
