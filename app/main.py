@@ -68,13 +68,15 @@ async def read_item(info: Request):
 @app.post("/image")
 async def read_item(info: Request):
     data = await info.json()
-    global images
     part = data['text']
-    if part in images.keys():
-        return images[part]
-    summarized_part = StorySummarizer(part, max_tokens=40).summarize()
-    img = get_image_to_story_segment(summarized_part)
-    images[part] = img
+
+    img = None
+    max_tokens = 40
+    while img is None:
+        summarized_part = StorySummarizer(part, max_tokens=max_tokens).summarize()
+        max_tokens = int(max_tokens * 0.75)
+        img = get_image_to_story_segment(summarized_part)
+
     return {"image": img}
 
 
