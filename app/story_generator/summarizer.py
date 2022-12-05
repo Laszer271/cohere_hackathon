@@ -37,6 +37,6 @@ class StorySummarizer:
             return ""
         for stop_sequence in self.stop_sequences:
             summary = summary.replace(stop_sequence, '')
-        if summary[-1] not in ['.', '!', '?']:
+        if len(summary) != 0 and summary[-1] not in ['.', '!', '?']:
             summary = '.'.join(summary.split('.')[:-1]) + '.'
         return summary

@@ -37,7 +37,7 @@ def summarize_story(story=None):
 
 def get_image_to_story_segment(segment_summarized):
     ig = ImageGenerator(segment_summarized)
-    ig.generate()
+    return ig.generate()
 
 
 def create_the_story_object():
