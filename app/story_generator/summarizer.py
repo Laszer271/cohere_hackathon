@@ -1,5 +1,6 @@
 from app.config import COHERE_CLIENT as co
 
+
 class StorySummarizer:
     def __init__(self, story, max_tokens=None):
         self.story = story
@@ -10,19 +11,6 @@ class StorySummarizer:
         self.stop_sequences = ["--"]
 
     def summarize(self, focus_on='main characters'):
-        # prompt = f"""
-        # Exercise: Summarize part of the story in one sentence focusing on main characters.
-        # Story: Is Wordle getting tougher to solve? Players seem to be convinced that the game has gotten harder in recent weeks ever since The New York Times bought it from developer Josh Wardle in late January. The Times has come forward and shared that this likely isn't the case. That said, the NYT did mess with the back end code a bit, removing some offensive and sexual language, as well as some obscure words There is a viral thread claiming that a confirmation bias was at play. One Twitter user went so far as to claim the game has gone to "the dusty section of the dictionary" to find its latest words.
-        # TLDR: Wordle has not gotten more difficult to solve.
-        # --
-        # Exercise: Summarize part of the story in one sentence focusing on main characters.
-        # Story: ArtificialIvan, a seven-year-old, London-based payment and expense management software company, has raised $190 million in Series C funding led by ARG Global, with participation from D9 Capital Group and Boulder Capital. Earlier backers also joined the round, including Hilton Group, Roxanne Capital, Paved Roads Ventures, Brook Partners, and Plato Capital.
-        # TLDR: ArtificialIvan has raised $190 million in Series C funding.
-        # --
-        # Exercise: Summarize part of the story in one sentence focusing on main characters.
-        # Story: {self.story}
-        # TLDR:"""
-
         prompt = f'''
         Exercise: Summarize part of the story in one sentence focusing on {focus_on}.
         Story: Once upon a time, a king ruled over a distant land. He lived with his daughter, the princess and her stepmother, the queen. The little princess was called Snow White. Her stepmother owned a magic mirror, and everyday she would daily ask, Mirror on the wall, who’s the fairest of them all? And every time she asked, the mirror would give the same answer, “Thou, O Queen, art the fairest of all.”  This made the queen very happy because she knew that her magical mirror does not lie. One morning when the queen asked, she was shocked when it answered: “You, my queen, are fair; it is true. But Snow White is even fairer than you” The Queen became jealous. She  ordered her huntsman to hurt Snow White but The poor huntsman was unable to hurt the girl. The huntsman took her to the great forest instead and let her go. He told her to run away and never return.  
