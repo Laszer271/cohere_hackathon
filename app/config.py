@@ -24,11 +24,11 @@ STABILITY_API = client.StabilityInference(
 COHERE_ERROR = cohere.CohereError
 
 init_params = {
-    "MAX_TOKENS": 100,
+    "MAX_TOKENS": 75,
     "STOP_SEQUENCES": ['--'],
-    "TEMPERATURE": 0.0,
+    "TEMPERATURE": 0.75,
     "MODEL": 'xlarge',
-    "MIN_P": 0.5,
+    "MIN_P": 0.8,
     "FREQ_PENALTY": 0.0,
     "PRESENCE_PENALTY": 1.0,
     "N_EXAMPLE_STORIES": 5}
