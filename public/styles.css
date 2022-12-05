@@ -106,6 +106,7 @@ section div {
     height: 300px;
     font-size: 2em;
     padding: 4px;
+    text-align: center;
 }
 
 .checkbox_container label {
@@ -153,7 +154,7 @@ section div {
     align-items: center;
 }
 
-#story_style_container {
+.story_style_container {
     display: flex;
     flex-direction: column;
     justify-content: center;

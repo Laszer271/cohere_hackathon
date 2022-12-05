@@ -13,8 +13,8 @@
     <section id="settings" class="settings">
         <div class="settings-title">Create your unique story!</div>
         <div class="settings-container">
-            <textarea id="summary" placeholder="Place summary of your story here"></textarea>
-            <div class="checkboxes">
+            <textarea id="summary" placeholder="Place title of your story here"></textarea>
+            <div class="checkboxes no-display">
                 <div class="checkbox_container">
                     <input id="option1" type="checkbox">
                     <label for="option1">Option 1</label>
@@ -28,7 +28,7 @@
                     <label for="option3">Option 3</label>
                 </div>
             </div>
-            <div id="story_style_container">
+            <div id="story_style_container" class="story_style_container no-display">
                 <div>Story style:</div>
                 <select name="style" id="story_style">
                     <option value="none">None</option>
@@ -37,7 +37,7 @@
                     <option value="audi">Audi</option>
                 </select>
             </div>
-            <div id="story_style_container">
+            <div id="story_style_container" class="story_style_container no-display">
                 <div>Number of pages:</div>
                 <select name="style" id="page_number">
                     <option value="5">5</option>
@@ -48,7 +48,7 @@
         </div>
     </section>
     <section id="view_story" class="view-story no-display">
-        <div id="story_title" class="story-title">Title of The Story</div>
+        <div id="story_title" class="story-title">A Story Without a Title</div>
         <div id="view_story_container">
             <div class="page-changer" id="page_back" onclick="changePage(false)"><</div>
             <div class="text-input story-page">
