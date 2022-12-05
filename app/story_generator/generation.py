@@ -25,7 +25,7 @@ def get_n_stories(n=3):
     return example_stories
 
 
-def get_segment_of_stories(stories:list, segment_idx:int, handle_too_big_index=True,
+def get_segment_of_stories(stories: list, segment_idx:int, handle_too_big_index=True,
                            n_pages=None, sentences_per_page=3):
     segmented_stories = []
     for s in stories:

@@ -1,20 +1,20 @@
 import io
 import warnings
+import base64
 
-import cohere
 from PIL import Image
 import stability_sdk.interfaces.gooseai.generation.generation_pb2 as generation
 from app.config import STABILITY_API as stability_api
 
 
 class ImageGenerator:
-    def __init__(self, story_segment, width=512, height=512):
+    def __init__(self, story_segment, width=418, height=418):
         self.story_segment = story_segment
         self.width = width
         self.height = height
 
     def generate(self):
-        image_prompt = f"children's tale style; {self.story_segment}"
+        image_prompt = f"Description: {self.story_segment}; fairy tale; book for children; lovely story; cartoon style; by Ernest Shepard; by John Tenniel; Beatrix Potter"
         answers = stability_api.generate(
             prompt=image_prompt,
             width=self.width,
@@ -28,5 +28,6 @@ class ImageGenerator:
                         "Your request activated the API's safety filters and could not be processed."
                         "Please modify the prompt and try again.")
                 if artifact.type == generation.ARTIFACT_IMAGE:
-                    img = Image.open(io.BytesIO(artifact.binary))
-                    img.show()
+                    img = io.BytesIO(artifact.binary)
+                    img_str = base64.b64encode(img.getvalue())
+                    return img_str
