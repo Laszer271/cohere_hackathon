@@ -58,7 +58,7 @@ function updatePage() {
     let pageContent = pages[currentPage];
     storyText.value = pageContent.text;
     storyText.readOnly = isFinished || !(currentPage === pages.length - 1);
-    storyImage.src = pageContent.imageData;
+    storyImage.style.backgroundImage = "url('"+pageContent.imageData+"')";
     pageCounter.innerText = `Page ${currentPage+1} of ${pageNumber.value}`;
     // Update arrows
     pageBack.classList.remove("hidden");
