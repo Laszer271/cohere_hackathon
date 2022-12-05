@@ -77,7 +77,7 @@ def hard_filter_results(results, stop_seq, disallowed_strings):
 
 def postprocess_results(results, stop_seq):
     results['generation'] = results['generation'].str.replace(stop_seq, '', regex=False)
-    results['generation'] = results['generation'].str.replace('^\s+\s+$', '',
+    results['generation'] = results['generation'].str.replace('^\s+|\s+$', '',
                                                               regex=True)  # delete white characters at the end of string
 
     mask = (results['generation'].str[-1] != '.') & (results['generation'].str[-1] != '!') \
@@ -160,7 +160,7 @@ class StoryGenerator:
         self.summary = None
         self.title = title
         self.example_stories = stories
-        self.continuations = {}
+        self.continuations = []
         self.story_gen = None
         self.create_story_generator()
 
@@ -204,46 +204,40 @@ class StoryGenerator:
     def generate_story_continuation(self):
         continuations_to_generate = self.n_pages - 2
 
+        if len(self.continuations) == 0:
+            prev_part = self.beginning
+        else:
+            prev_part = self.continuations[-1]
+
         if self.title:
             parameters = [self.title, self.summary, self.beginning]
         else:
             parameters = [self.summary, self.beginning]
 
-        continuations = []
-        cont_prompts = []
-        cont_results_list = []
 
-        for i in range(continuations_to_generate):
-            example_continuations = get_segments_and_continuations(self.example_stories)
-            while True:
-                header = story_params["CONT_GEN_HEADER"].format(len(example_continuations) + 1)
-                try:
-                    continuation, cont_prompt, cont_results = generate_segment(example_continuations,
-                                                                               story_params[
-                                                                                   "KEYS_TO_USE_FOR_CONTINUATION"],
-                                                                               header,
-                                                                               parameters,
-                                                                               story_generator=self.story_gen)
-                except AssertionError:
-                    example_continuations = example_continuations[:-1]
-                    continue
-                break  # break if there was no error
+        example_continuations = get_segments_and_continuations(self.example_stories)
+        while True:
+            header = story_params["CONT_GEN_HEADER"].format(len(example_continuations) + 1)
+            try:
+                continuation, cont_prompt, cont_results = generate_segment(example_continuations,
+                                                                           story_params[
+                                                                               "KEYS_TO_USE_FOR_CONTINUATION"],
+                                                                           header,
+                                                                           parameters,
+                                                                           story_generator=self.story_gen)
+            except AssertionError:
+                example_continuations = example_continuations[:-1]
+                continue
+            break  # break if there was no error
 
-            continuations.append(continuation)
-            # temporary also save prompts and results for debugging
-            cont_prompts.append(cont_prompt)
-            cont_results_list.append(cont_results)
-
-            if self.title:
-                parameters = [self.title, self.summary, continuation]
-            else:
-                parameters = [self.summary, continuation]
+        self.continuations.append(continuation)
+        return continuation
 
     def generate_story_ending(self):
         if self.title:
-            parameters = [self.title, self.summary, self.continuation]
+            parameters = [self.title, self.summary, self.continuations[-1]]
         else:
-            parameters = [self.summary, self.continuation]
+            parameters = [self.summary, self.continuations[-1]]
 
         story_endings = [
             {'Previous Part':story_bef_end.pop('text'), 'Ending':story_end['text'], **story_bef_end} \
@@ -251,7 +245,7 @@ class StoryGenerator:
             zip(get_segment_of_stories(self.example_stories, -2), get_segment_of_stories(self.example_stories, -1))
         ]
 
-        header = story_params["END_GEN_HEADER"].format(len(self.story_beginning) + 1)
+        header = story_params["END_GEN_HEADER"].format(len(self.beginning) + 1)
 
         ending, end_prompt, end_results = generate_segment(story_endings, story_params["KEYS_TO_USE_FOR_ENDING"],
                                                            header, parameters,

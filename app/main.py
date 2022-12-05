@@ -29,13 +29,16 @@ def create_story(story_title: str, n_pages: int):
     pass
 
 data_generator = None
-count = 0
+count = 1
+last_text = ''
 
 @app.post("/settings")
 async def read_item(info: Request):
     data = await info.json()
     global data_generator
+    global count
 
+    count = 1
     stories = get_n_stories(3)
     data_generator = StoryGenerator(data['settings']['pages'], data['settings']['summary'], stories)
     return {}
@@ -47,19 +50,29 @@ async def read_item(info: Request):
     print(data)
     global count
     global data_generator
-    if count == 0:
-        text = data_generator.generate_story_description()
-    elif count == 1:
-        data_generator.summary = data['text']
+    global last_text
+
+    if count == 1:
+        summary = data_generator.generate_story_description()
+        print('Summary:', summary)
         text = data_generator.generate_story_beginning()
-    # elif count < data_generator.n_pages -1:
-    #     data_generator.beginning = data['text']
-    #     text = data_generator.generate_story_continuation()
+        print('Beginning:', text)
+    elif count < data_generator.n_pages:
+        if count == 2:
+            data_generator.beginning = data['text']
+        else:
+            data_generator.continuations[-1] = data['text']
+        text = data_generator.generate_story_continuation()
+        print('Continuation:', text)
     else:
-        data_generator.continuation = data['text']
+        data_generator.continuations[-1] = data['text']
         text = data_generator.generate_story_ending()
-    count += 1
-    # data_generator.generate_story_description()
+        print('Ending:', text)
+
+    if data['text'] != text:
+        last_text = text
+        count += 1
+
     return {"text": text}  # Use this format
 
 
