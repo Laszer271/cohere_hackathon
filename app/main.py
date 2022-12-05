@@ -5,7 +5,8 @@ from app.story_generator.generation import StoryGenerator, get_n_stories
 import base64
 
 from app.story_generator.generation import StoryTextGenerator, PromptGenerator
-from tests.image_generation_test import get_segmented_story, summarize_story
+from app.story_generator.summarizer import StorySummarizer
+from tests.image_generation_test import get_segmented_story, summarize_story, get_image_to_story_segment
 
 # to start app cd to project root directory and run:
 # uvicorn app.main:app --reload
@@ -21,16 +22,11 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-with open("./data/img/sample_image.png", "rb") as image_file:
-    encoded_string_example = base64.b64encode(image_file.read())
-
-
-def create_story(story_title: str, n_pages: int):
-    pass
-
 data_generator = None
 count = 1
 last_text = ''
+images = {}
+
 
 @app.post("/settings")
 async def read_item(info: Request):
@@ -79,7 +75,14 @@ async def read_item(info: Request):
 @app.post("/image")
 async def read_item(info: Request):
     data = await info.json()
-    return {"image": encoded_string_example}
+    global images
+    part = data['text']
+    if part in images.keys():
+        return images[part]
+    summarized_part = StorySummarizer(part, max_tokens=40).summarize()
+    img = get_image_to_story_segment(summarized_part)
+    images[part] = img
+    return {"image": img}
 
 
 @app.post("/pdf")
