@@ -6,5 +6,5 @@ COPY requirements.txt requirements.txt
 RUN pip install --no-cache-dir --upgrade -r requirements.txt \
 && apt-get update
 
-COPY app /app/ml
-CMD ["uvicorn", "ml.api:app", "--reload", "--host", "0.0.0.0", "--port", "8000"]
+COPY app /app/app
+CMD ["uvicorn", "app.main:app", "--reload", "--host", "0.0.0.0", "--port", "8000"] 
