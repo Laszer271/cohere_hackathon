@@ -1,3 +1,16 @@
+import re
+
+
+def preprocess_segment(segment):
+    if not segment:
+        return segment
+    segment = re.sub('\s+', ' ', segment)
+    segment = re.sub('^\s|\s$', '', segment)
+    if segment[-1] != '.' and segment[-1] != '!' and segment[-1] != '?':
+        segment += '.'
+    return segment
+
+
 class StoryDivider:
     def __init__(self, story_id, story_text):
         self.story_id = story_id
@@ -12,12 +25,14 @@ class StoryDivider:
         for i in range(n_pages):
             story_segment = self.story_text.split('.')[i * sentences_per_page:(i + 1) * sentences_per_page]
             story_segment = '.'.join(story_segment)
+            story_segment = preprocess_segment(story_segment)
             story_segments.append(story_segment)
             if i == n_pages - 1:
-                if len(story_segment.split('.')) < sentences_per_page:
-                    story_segment = self.story_text.split('.')[(i + 1) * sentences_per_page:]
+                story_segment = self.story_text.split('.')[(i + 1) * sentences_per_page:]
+                if len(story_segment) < sentences_per_page:
                     story_segment = '.'.join(story_segment)
-                    story_segments.append(story_segment)
+                    story_segment = preprocess_segment(story_segment)
+                    story_segments[-1] = ' '.join([story_segments[-1], story_segment])
         self.story_segments = story_segments
         return story_segments
 

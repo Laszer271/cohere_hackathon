@@ -19,3 +19,5 @@ COHERE_CLIENT = cohere.Client(COHERE_KEY)
 STABILITY_API = client.StabilityInference(
     key=STABILITY_KEY,
     verbose=False)
+
+COHERE_ERROR = cohere.CohereError
