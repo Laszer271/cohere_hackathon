@@ -1,5 +1,5 @@
 from app.story_generator.generation import StoryGenerator, PromptGenerator
-from tests.image_generation_test import get_segmented_story
+from tests.image_generation_test import get_segmented_story, summarize_story
 
 
 def create_prompt(story_title=None):
@@ -20,16 +20,18 @@ def create_prompt(story_title=None):
 def create_stories(story_title=None):
     sg = StoryGenerator(create_prompt(story_title))
     story = sg.generate()
-    return story
+    return story_title, story
 
 
 def main():
-    story_title = 'The princess and the Italy castle'
+    story_title = 'The princess and angry Italian chef'
     result = create_stories(story_title)
-    for story in result['generation']:
-        title = story_title
-        print(title + '\n' + story)
-        print('----------------------------------------')
+    for story in result[1]['generation']:
+        summarize_story({"title": story_title, "text": story})
+        # title = story_title
+        # print(title + '\n' + story)
+        # print('----------------------------------------')
+
 
 if __name__ == '__main__':
     main()

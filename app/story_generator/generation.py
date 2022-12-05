@@ -4,7 +4,7 @@ import pandas as pd
 
 
 class StoryGenerator:
-    def __init__(self, prompt, model='xlarge', max_tokens=1800, stop_sequences=None, temperature=0.7):
+    def __init__(self, prompt, model='xlarge', max_tokens=1800, stop_sequences=None, temperature=0.8):
         self.model = model
         self.temperature = temperature
         self.prompt = prompt
@@ -14,7 +14,7 @@ class StoryGenerator:
         else:
             self.stop_sequences = stop_sequences
 
-    def generate(self, prompt=None, num_generations=5, temperature=None, max_tokens=None):
+    def generate(self, prompt=None, num_generations=2, temperature=None, max_tokens=None):
         if temperature is None:
             temperature = self.temperature
         if max_tokens is None:

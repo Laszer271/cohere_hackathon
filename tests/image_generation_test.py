@@ -16,8 +16,9 @@ def get_random_story():
     return example_story
 
 
-def get_segmented_story(sentences_per_page=3):
-    story = get_random_story()
+def get_segmented_story(story=None, sentences_per_page=3):
+    if story is None:
+        story = get_random_story()
     if len(story) > 2048:
         story = story[:2000]
     seg = StoryDivider(story["title"], story["text"])
@@ -25,9 +26,9 @@ def get_segmented_story(sentences_per_page=3):
     return story["title"], segmented
 
 
-def summarize_story():
-    story = get_segmented_story(sentences_per_page=3)[1]
-    for part in story:
+def summarize_story(story=None):
+    story = get_segmented_story(story, sentences_per_page=3)
+    for part in story[1]:
         summarized_part = StorySummarizer(part, max_tokens=200).summarize()
         if summarized_part != "":
             get_image_to_story_segment(summarized_part)
