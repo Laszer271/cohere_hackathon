@@ -100,14 +100,17 @@ async function sendSettings() {
     return await response.json();
 }
 // Request page, empty text means it's wants to regenerate first page
-async function getPage(text) {
+async function getPage(pageIndex) {
+    let text = pages[pageIndex - 1] ? pages[pageIndex - 1].text : "";
     const response = await fetch(BASE_URL + "/page", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ "text": text })
+        body: JSON.stringify({ 
+            "text": text,
+            "page": pageIndex
+        })
     });
     let content = await response.json();
-    if (content.title && content.title !== "") storyTitle.innerText = content.title;
     return content;
 }
 // Image
@@ -161,8 +164,9 @@ function toggleProgress() {
 // Send options to server and get first page
 new_story_btn.addEventListener("click", async (e) => {
     toggleProgress();
+    if (summary.value) storyTitle.innerText = summary.value;
     await sendSettings();
-    let content = await getPage(""); // Ask for start of the story
+    let content = await getPage(0); // Ask for start of the story
     let page = new Page(content.text, questionMarkPath);
     pages.push(page);
     // Hide settings and show story
@@ -176,8 +180,7 @@ new_story_btn.addEventListener("click", async (e) => {
 // Regen current story
 story_btn.addEventListener("click", async (e) => {
     toggleProgress(); 
-    let text = currentPage == 0 ? "" : pages[currentPage - 1].text;
-    let content = await getPage(text);
+    let content = await getPage(currentPage);
     pages[currentPage].updateText(content.text);
     updatePage();
     toggleProgress();
@@ -207,7 +210,7 @@ page_btn.addEventListener("click", async (e) => {
         return;
     } 
     toggleProgress(); 
-    let newContent = await getPage(pages[currentPage].text);
+    let newContent = await getPage(currentPage + 1);
     pages.push(new Page(newContent.text, questionMarkPath));
     currentPage++;
     if (parseInt(pageNumber.value) === pages.length) {
