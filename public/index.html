@@ -4,12 +4,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Kurale&display=swap">
     <link rel="stylesheet" href="styles.css">
     <script src="main.js" defer></script>
     <title>Hackaton Golem - short stories for children</title>
 </head>
 <body>
-    <section id="settings">
+    <section id="settings" class="settings">
+        <div class="settings-title">Create your unique story!</div>
         <div class="settings-container">
             <textarea id="summary" placeholder="Place summary of your story here"></textarea>
             <div class="checkboxes">
@@ -45,15 +47,18 @@
             </div>
         </div>
     </section>
-    <section id="view_story" class="no-display">
-        <div class="page-changer" id="page_back" onclick="changePage(false)"><</div>
-        <div class="text-input">
-            <textarea id="story_text"></textarea>
+    <section id="view_story" class="view-story no-display">
+        <div id="story_title" class="story-title">Title of The Story</div>
+        <div id="view_story_container">
+            <div class="page-changer" id="page_back" onclick="changePage(false)"><</div>
+            <div class="text-input story-page">
+                <textarea id="story_text"></textarea>
+            </div>
+            <div class="image-output story-page">
+                <img id="story_image" src="" alt="">
+            </div>
+            <div class="page-changer" id="page_next" onclick="changePage(true)">></div>
         </div>
-        <div class="image-output">
-            <img id="story_image" src="" alt="">
-        </div>
-        <div class="page-changer" id="page_next" onclick="changePage(true)">></div>
     </section>
     <div class="page-counter hidden"></div>
     <footer>

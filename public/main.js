@@ -30,6 +30,7 @@ const gen_pdf_btn = document.getElementById("gen_pdf");
 const settings_btn = document.getElementById("go_settings");
 const pageCounter = document.querySelector(".page-counter");
 // Content
+const storyTitle = document.getElementById("story_title");
 const storyText = document.getElementById("story_text");
 const storyImage = document.getElementById("story_image");
 // Arrows
@@ -46,7 +47,6 @@ function changePage(nextPage) {
         if (currentPage === 0) return;
         currentPage--;
     }
-    storyText.readOnly = isFinished || !(currentPage === pages.length - 1);
     updatePage();
 }
 
@@ -57,6 +57,7 @@ storyText.oninput = (ev) => {
 function updatePage() {
     let pageContent = pages[currentPage];
     storyText.value = pageContent.text;
+    storyText.readOnly = isFinished || !(currentPage === pages.length - 1);
     storyImage.src = pageContent.imageData;
     pageCounter.innerText = `Page ${currentPage+1} of ${pageNumber.value}`;
     // Update arrows
@@ -105,7 +106,9 @@ async function getPage(text) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ "text": text })
     });
-    return await response.json();
+    let content = await response.json();
+    if (content.title && content.title !== "") storyTitle.innerText = content.title;
+    return content;
 }
 // Image
 async function getImage(text) {
@@ -189,15 +192,18 @@ image_btn.addEventListener("click", async (e) => {
     toggleProgress();
 });
 // Generate next page
+let canFinish = false;
 let isFinished = false;
 page_btn.addEventListener("click", async (e) => {
-    if (isFinished) {
+    if (canFinish) {
+        isFinished = true;
         page_btn.innerText = "Continue Story";
         story_btn.classList.add("no-display");
         image_btn.classList.add("no-display");
         page_btn.classList.add("no-display");
         gen_pdf_btn.classList.remove("no-display");
         settings_btn.classList.remove("no-display");
+        updatePage();
         return;
     } 
     toggleProgress(); 
@@ -205,7 +211,7 @@ page_btn.addEventListener("click", async (e) => {
     pages.push(new Page(newContent.text, questionMarkPath));
     currentPage++;
     if (parseInt(pageNumber.value) === pages.length) {
-        isFinished = true;
+        canFinish = true;
         page_btn.innerText = "Finish Story";
     } 
     updatePage();
@@ -225,6 +231,7 @@ function backToSettings() {
     page_btn.classList.add("no-display");
     settings_btn.classList.add("no-display");
     isFinished = false;
+    canFinish = false;
     view_pdf_btn.classList.add("no-display");
     view_pdf_btn.href = "";
     gen_pdf_btn.classList.add("no-display");
