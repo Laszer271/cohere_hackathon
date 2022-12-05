@@ -1,4 +1,4 @@
-fastapi
+fastapi~=0.88.0
 uvicorn
 stability-sdk
 anyio==3.6.2
@@ -102,5 +102,6 @@ webencodings==0.5.1
 websocket-client==1.4.2
 widgetsnbextension==4.0.3
 zipp==3.10.0
-cohere
+cohere~=2.9.1
 stability-sdk
+python-dotenv~=0.21.0
